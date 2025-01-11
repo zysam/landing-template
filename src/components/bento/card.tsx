@@ -1,7 +1,9 @@
-import { cn } from '@/lib/utils';
-import { motion } from 'framer-motion';
+import { motion, MotionProps } from 'framer-motion';
 
-interface BentoCardProps extends React.HTMLAttributes<HTMLDivElement> {
+import { cn } from '@/lib/utils';
+
+// React.HTMLAttributes<HTMLDivElement>
+interface BentoCardProps extends MotionProps {
   children: React.ReactNode;
   className?: string;
   size?: 'sm' | 'md' | 'lg';
@@ -10,10 +12,15 @@ interface BentoCardProps extends React.HTMLAttributes<HTMLDivElement> {
 const sizeClasses = {
   sm: 'col-span-1 row-span-1',
   md: 'col-span-1 row-span-2',
-  lg: 'col-span-2 row-span-2'
+  lg: 'col-span-2 row-span-2',
 };
 
-export function BentoCard({ children, className, size = 'sm', ...props }: BentoCardProps) {
+export function BentoCard({
+  children,
+  className,
+  size = 'sm',
+  ...props
+}: BentoCardProps) {
   return (
     <motion.div
       whileHover={{ scale: 1.02 }}
@@ -26,7 +33,7 @@ export function BentoCard({ children, className, size = 'sm', ...props }: BentoC
         'border border-border/50',
         'hover:border-border/80 transition-colors',
         sizeClasses[size],
-        className
+        className,
       )}
       {...props}
     >

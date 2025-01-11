@@ -1,27 +1,33 @@
 import { motion } from 'framer-motion';
-import { ArrowRight, Github, Linkedin, Twitter } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 
-const socialLinks = [
-  {
-    icon: Github,
-    href: 'https://github.com',
-    label: 'GitHub',
-  },
-  {
-    icon: Twitter,
-    href: 'https://twitter.com',
-    label: 'Twitter',
-  },
-  {
-    icon: Linkedin,
-    href: 'https://linkedin.com',
-    label: 'LinkedIn',
-  },
-];
+export interface HeroContent {
+  greeting?: string;
+  name: string;
+  role: string;
+  description: string;
+  primaryButton?: {
+    text: string;
+    href: string;
+  };
+  secondaryButton?: {
+    text: string;
+    href: string;
+  };
+  socialLinks: Array<{
+    icon: any;
+    href: string;
+    label: string;
+  }>;
+}
 
-export function Hero() {
+interface HeroProps {
+  content: HeroContent;
+}
+
+export function Hero({ content }: HeroProps) {
   return (
     <div className="min-h-[70vh] flex flex-col justify-center relative">
       <motion.div
@@ -30,14 +36,18 @@ export function Hero() {
         transition={{ duration: 0.5 }}
         className="container px-4 mx-auto"
       >
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
-          className="inline-block"
-        >
-          <span className="text-primary/80 font-medium">Hello, I'm</span>
-        </motion.div>
+        {content.greeting && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="inline-block"
+          >
+            <span className="text-primary/80 font-medium">
+              {content.greeting}
+            </span>
+          </motion.div>
+        )}
 
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
@@ -45,7 +55,7 @@ export function Hero() {
           transition={{ delay: 0.3, duration: 0.5 }}
           className="text-4xl md:text-6xl font-bold mt-2"
         >
-          John Doe
+          {content.name}
         </motion.h1>
 
         <motion.h2
@@ -54,7 +64,7 @@ export function Hero() {
           transition={{ delay: 0.4, duration: 0.5 }}
           className="text-2xl md:text-4xl text-muted-foreground mt-2"
         >
-          Full Stack Developer
+          {content.role}
         </motion.h2>
 
         <motion.p
@@ -63,8 +73,7 @@ export function Hero() {
           transition={{ delay: 0.5, duration: 0.5 }}
           className="max-w-2xl text-muted-foreground/80 mt-4 text-lg"
         >
-          I build exceptional digital experiences that make people's lives
-          simpler through clean and thoughtful design.
+          {content.description}
         </motion.p>
 
         <motion.div
@@ -73,13 +82,21 @@ export function Hero() {
           transition={{ delay: 0.6, duration: 0.5 }}
           className="mt-8 flex flex-wrap gap-4"
         >
-          <Button size="lg" className="group">
-            View My Work
-            <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </Button>
-          <Button size="lg" variant="outline">
-            Download CV
-          </Button>
+          {content.primaryButton && (
+            <Button size="lg" className="group" asChild>
+              <a href={content.primaryButton.href}>
+                {content.primaryButton.text}
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </a>
+            </Button>
+          )}
+          {content.secondaryButton && (
+            <Button size="lg" variant="outline" asChild>
+              <a href={content.secondaryButton.href}>
+                {content.secondaryButton.text}
+              </a>
+            </Button>
+          )}
         </motion.div>
 
         <motion.div
@@ -88,7 +105,7 @@ export function Hero() {
           transition={{ delay: 0.7, duration: 0.5 }}
           className="mt-12 flex gap-6"
         >
-          {socialLinks.map((link) => (
+          {content.socialLinks.map((link) => (
             <motion.a
               key={link.label}
               href={link.href}

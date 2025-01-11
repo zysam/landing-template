@@ -1,10 +1,11 @@
-import { About } from '@/components/about';
-import { Hero } from '@/components/hero';
+import { About } from './about';
+import { heroData } from './data';
+import { Hero } from './hero';
 
 export function Basic() {
   return (
-    <div>
-      <Hero />
+    <div className="">
+      <Hero content={heroData} />
       <About />
     </div>
   );
